@@ -3,11 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
+    <link rel="icon" type="image/png" href="/favicon.ico">
 </head>
 <body>
-    <ul>
+<ul>
+<!--    (song_url TEXT, path TEXT, title TEXT, date DATE)  -->
+    <form action="/download" method="post">
+        <label for="url"> Song URL:</label>
+        <input type="text" id="url" name="url">
+        <input type="submit" value="Download!">
+    </form>
+    <table>
         %for song in songs:
-        <li>{{song['timestamp']}} {{song['artist']}} {{song['title']}} </li>
-    </ul>
+        <tr>
+            <td style="text-align: right">{{song['date']}}</td>
+            <td style="text-align: right">{{song['title']}}</td>
+            <td style="text-align: right">{{song['song_url']}}</td>
+            <td style="text-align: right"><a href="{{song['song_url']}}"> download </a></td>
+        </tr>
+        %end
+    </table>
+</ul>
 </body>
 </html>
