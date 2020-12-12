@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{title}}</title>
 </head>
 <body>
-
+    <ul>
+        %for song in songs:
+        <li>{{song['timestamp']}} {{song['artist']}} {{song['title']}} </li>
+    </ul>
 </body>
 </html>
