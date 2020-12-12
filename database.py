@@ -1,31 +1,31 @@
 import sqlite3
 from datetime import datetime
 
+class Database:
 
+    def __init__(self):
+        self.connection = sqlite3.connect('pityfy.db')
+        self.connection.row_factory = self.dict_factory
+        cursor = self.connection.cursor()
+        table = """CREATE TABLE IF NOT EXISTS
+        songs(song_url TEXT, path TEXT, title TEXT, date TEXT)"""
+        cursor.execute(table)
 
-connection = sqlite3.connect('pityfy.db')
+    def add_record(self, song_url, path, title):
+        cursor = self.connection.cursor()
+        date = datetime.now()
+        cursor.execute("INSERT INTO songs VALUES (?,?,?,?)", (song_url, path, title, date))
+        self.connection.commit()
 
-cursor = connection.cursor()
+    def list_all(self):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM songs")
+        results = cursor.fetchall()
+        print(results)
 
-table = """CREATE TABLE IF NOT EXISTS
-songs(song_url TEXT, path TEXT, title TEXT, date DATE)"""
-
-cursor.execute(table)
-now = datetime.now()
-cursor.execute("INSERT INTO songs VALUES ('test1', 'test2')")
-cursor.execute("INSERT INTO songs VALUES ('test4', 'test5')")
-
-# cursor.execute("SELECT * FROM songs")
-# results = cursor.fetchall()
-# print(results)
-
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
-
-connection.row_factory = dict_factory
-cur = connection.cursor()
-cur.execute("SELECT * FROM songs")
-print(cur.fetchall())
+    @staticmethod
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
