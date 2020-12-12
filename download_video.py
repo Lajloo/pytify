@@ -6,7 +6,7 @@ url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
 
 def download_video(url):
     youtube = pytube.YouTube(url)
-    video = youtube.streams.first()
+    video = youtube.streams.filter(only_audio=True).first()
     try:
         video.download()
         print('[+] Downloaded!')

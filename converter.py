@@ -10,10 +10,8 @@ def convert_mp4_to_mp3():
 
     #convert all .mp4 into .mp3
     for f in mp4_files:
-        videoclip = VideoFileClip(f)
-        audioclip = videoclip.audio
         mp3_file = f.strip('.mp4') + '.mp3'
-        audioclip.write_audiofile(mp3_file)
-        audioclip.close()
-        videoclip.close()
+        clip = AudioFileClip(f)
+        clip.write_audiofile(mp3_file)
+        clip.close()
         os.remove(f)
