@@ -128,7 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# If you are using PyCharm # 
+# If you are using PyCharm #
+.idea/
 .idea/**/workspace.xml 
 .idea/**/tasks.xml 
 .idea/dictionaries 
