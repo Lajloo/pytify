@@ -6,6 +6,7 @@ import settings
 class Database:
 
     def __init__(self):
+        os.makedirs(settings.database_path, exist_ok=True)
         self.connection = sqlite3.connect(os.path.join(settings.database_path, 'pityfy.db'))
         self.connection.row_factory = self.dict_factory
         cursor = self.connection.cursor()

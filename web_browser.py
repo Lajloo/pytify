@@ -10,7 +10,7 @@ from download_video import download_from_bookmarks
 
 database = Database()
 # song_url TEXT, path TEXT, title TEXT
-for item in download_from_bookmarks("Muzyka"):
+for item in download_from_bookmarks("muzaaaaa"):
     database.add_record(song_url=item[0], path=item[1], title=item[2])
 
 

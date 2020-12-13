@@ -1,3 +1,2 @@
-save_audio_path='./audio/'
-database_path='./database/'
-
+save_audio_path = r'C:\Users\wojci\Desktop\music'
+database_path = './database/'

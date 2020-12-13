@@ -2,6 +2,7 @@ import pytube
 from moviepy.editor import *
 import os
 import chrome_bookmarks
+import settings
 
 url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
 #(song_url TEXT, path TEXT, title TEXT)
@@ -34,23 +35,20 @@ def download_video(url):
         print('[-] Something went wrong...')
     
 def download_video_as_mp3(url):
+    os.makedirs(settings.save_audio_path, exist_ok=True)
     youtube = pytube.YouTube(url)
+    title = youtube.title
     try:
-        title = youtube.title
-        name = youtube.streams[0].default_filename
-        cwd = os.getcwd()
-
-        file_path_name = cwd + '/' + name
-        mp3_file = file_path_name.strip('.mp4') + '.mp3'
-
+        video_path = os.path.join(settings.save_audio_path, title + '.mp4')
         video = youtube.streams.filter(only_audio=True).first()
-        video.download()
-        clip = AudioFileClip(name)
-        clip.write_audiofile(mp3_file)
+        video.download(output_path=settings.save_audio_path)
+        clip = AudioFileClip(video_path)
+        audio_path = os.path.splitext(video_path)[0] + '.mp3'
+        clip.write_audiofile(audio_path)
         clip.close()
-        os.remove(file_path_name)
+        os.remove(video_path)
         print('[+] Downloaded!')
-        return (url, mp3_file, name.strip('.mp4'))
+        return (url, audio_path, title)
     except:
         print(f'[-] Something went wrong while downloading {title}')
 
