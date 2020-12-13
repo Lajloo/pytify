@@ -35,15 +35,15 @@ def download_video(url):
     
 def download_video_as_mp3(url):
     youtube = pytube.YouTube(url)
-
-    name = youtube.streams[0].default_filename
-    cwd = os.getcwd()
-
-    file_path_name = cwd + '/' + name
-    mp3_file = file_path_name.strip('.mp4') + '.mp3'
-
-    video = youtube.streams.filter(only_audio=True).first()
     try:
+        title = youtube.title
+        name = youtube.streams[0].default_filename
+        cwd = os.getcwd()
+
+        file_path_name = cwd + '/' + name
+        mp3_file = file_path_name.strip('.mp4') + '.mp3'
+
+        video = youtube.streams.filter(only_audio=True).first()
         video.download()
         clip = AudioFileClip(name)
         clip.write_audiofile(mp3_file)
@@ -52,7 +52,7 @@ def download_video_as_mp3(url):
         print('[+] Downloaded!')
         return (url, mp3_file, name.strip('.mp4'))
     except:
-        print('[-] Something went wrong...')
+        print(f'[-] Something went wrong while downloading {title}')
 
 
 def download_from_bookmarks(bookmark_name):
