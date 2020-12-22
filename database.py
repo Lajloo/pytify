@@ -2,6 +2,8 @@ import os
 import sqlite3
 from datetime import datetime
 import settings
+from urllib.parse import urlparse, parse_qs
+
 
 class Database:
     database = None
@@ -29,6 +31,11 @@ class Database:
         results = cursor.fetchall()
         return results
 
+    def get_song(self, yt_id):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM songs WHERE yt_id = ?", (yt_id, ))
+        return cursor.fetchone()
+
     @staticmethod
     def dict_factory(cursor, row):
         d = {}
@@ -37,9 +44,21 @@ class Database:
         return d
 
     @staticmethod
+    def get_yt_id(url):
+        u_pars = urlparse(url)
+        quer_v = parse_qs(u_pars.query).get('v')
+        if quer_v:
+            return quer_v[0]
+        pth = u_pars.path.split('/')
+        if pth:
+            return pth[-1]
+
+    @staticmethod
     def get_database():
         if Database.database:
             return Database.database
         else:
             Database.database = Database()
             return Database.database
+
+Database.get_database().get_song("kurwa")

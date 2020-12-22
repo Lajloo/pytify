@@ -168,3 +168,6 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# system-specific settings:
+settings.py
