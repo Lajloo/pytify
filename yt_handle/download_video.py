@@ -5,10 +5,12 @@ import settings
 import threading
 import bookmarks_handler
 import queue
+from database.database import Database
 
 #Install 10.1.0 pytube
 #pip install git+https://github.com/nficano/pytube
 #TODO add this to the requirements when pip releases this version at repo
+
 
 url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
 #(song_url TEXT, path TEXT, title TEXT)
@@ -57,10 +59,9 @@ def download_video_as_mp3(url):
         clip.close()
         os.remove(video_path)
         print('[+] Downloaded!')
-        #add database update
-
-        #remove this
-        return (url, audio_path, default_filename)
+        #add database
+        database = Database.get_database()
+        database.add_record(url, audio_path, default_filename)
     except:
         print(f'[-] Something went wrong while downloading {default_filename}')
 
@@ -91,10 +92,11 @@ def download_with_threads(video_links, use_threads=False):
                 print('[-] Something went wrong in downloading without '
                       'threads function.')
 
-# video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
-#                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
-#                 'https://www.youtube.com/watch?v=lozD2BFLipQ']
 
+ # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
+ #                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
+ #                 'https://www.youtube.com/watch?v=lozD2BFLipQ']
+download_from_bookmarks('muzaaaaa', False)
 #
 # print('------Regular download')
 # for v in video_links:
