@@ -74,15 +74,23 @@ def download_from_bookmarks(bookmark_name):
     return tuple_list
 
 
-def download_with_threads(video_links):
-    threads = []
-    for video in video_links:
-        try:
-            t = threading.Thread(target=download_video_as_mp3, args=(video, ))
-            threads.append(t)
-            t.start()
-        except:
-            print("[-] Something went wrong in threading function")
+def download_with_threads(video_links, use_threads=False):
+    if use_threads:
+        threads = []
+        for video in video_links:
+            try:
+                t = threading.Thread(target=download_video_as_mp3, args=(video, ))
+                threads.append(t)
+                t.start()
+            except:
+                print("[-] Something went wrong in threading function.")
+    else:
+        for video in video_links:
+            try:
+                download_video_as_mp3(video)
+            except:
+                print('[-] Something went wrong in downloading without '
+                      'threads function.')
 
 # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
 #                'https://www.youtube.com/watch?v=ec20HTk2C_s',
