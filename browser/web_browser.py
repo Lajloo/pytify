@@ -17,26 +17,28 @@ def get_favicon():
     Browsers for no reason keep asking for favicon, so there you go.
     :return: favicon
     """
-    return static_file('favicon.ico', root='./static_files')
+    return static_file('favicon.ico', root='/browser/static_files')
 
 
 @route('/')
-@view('templates/index')
+@view('browser/index')
 def index():
     """
     Returns main page of the server.
     :return:
     """
-    return template('templates/index.html', title="What a PiTyfy!",
+    return template('browser/index.html',
+                    title="What a PiTify!",
                     songs=database.list_all())
 
 
 @route('/download/<yt_id>')
-def send_song(yt_id):
+def download_song(yt_id):
     song = database.get_song(yt_id)
     return static_file(os.path.basename(song['path']),
                        root=settings.save_audio_path,
                        mimetype="audio/mpeg")
+
 
 
 if __name__ == "__main__":
