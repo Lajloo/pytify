@@ -4,6 +4,10 @@ import os
 import chrome_bookmarks
 import settings
 
+#Install 10.1.0 pytube
+#pip install git+https://github.com/nficano/pytube
+#TODO add this to the requirements when pip releases this version at repo
+
 url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
 #(song_url TEXT, path TEXT, title TEXT)
 
