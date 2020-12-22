@@ -3,6 +3,8 @@ from moviepy.editor import *
 import os
 import chrome_bookmarks
 import settings
+import threading
+
 
 #Install 10.1.0 pytube
 #pip install git+https://github.com/nficano/pytube
@@ -70,3 +72,27 @@ def download_from_bookmarks(bookmark_name):
     for u in url_list:
         tuple_list.append(download_video_as_mp3(u))
     return tuple_list
+
+
+def download_with_threads(video_links):
+    threads = []
+    for video in video_links:
+        try:
+            t = threading.Thread(target=download_video_as_mp3, args=(video, ))
+            threads.append(t)
+            threads.append(t)
+            t.start()
+        except:
+            print("[-] Something went wrong in threading function")
+
+# video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
+#                'https://www.youtube.com/watch?v=ec20HTk2C_s',
+#                'https://www.youtube.com/watch?v=lozD2BFLipQ']
+#
+# print('------Regular download')
+# for v in video_links:
+#     download_video_as_mp3(v)
+# print('------Regular download finished')
+# print('------Threaded download ')
+# download_with_threads(video_links)
+# print('-------Threaded download finished')
