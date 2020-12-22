@@ -73,7 +73,7 @@ def download_with_threads(video_links, use_threads=False):
         que = queue.Queue()
         threads = []
         for video in video_links:
-            t = threading.Thread(target=download_video_as_mp3, args=(video, ))
+            t = threading.Thread(target=download_video_if_not_exist, args=(video, ))
             threads.append(t)
             t.start()
     else:
