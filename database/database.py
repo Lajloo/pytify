@@ -46,7 +46,8 @@ class Database:
 
     def check_if_exist(self, url):
         yt_id = self.get_yt_id(url)
-        cursor = self.connection.cursor()
+        connection = sqlite3.connect(os.path.join(settings.database_path, 'pityfy.db'))
+        cursor = connection.cursor()
         return cursor.execute("SELECT EXIST(SELECT 1 FROM songs WHERE yt_id = ?)", (yt_id,)).fetchone()
 
     @staticmethod
