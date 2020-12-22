@@ -1,7 +1,6 @@
 import pytube
 from moviepy.editor import *
 import os
-import chrome_bookmarks
 import settings
 import threading
 import bookmarks_handler
