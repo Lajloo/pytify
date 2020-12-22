@@ -4,7 +4,8 @@ import os
 import chrome_bookmarks
 import settings
 import threading
-
+import bookmarks_handler
+import queue
 
 #Install 10.1.0 pytube
 #pip install git+https://github.com/nficano/pytube
@@ -57,25 +58,24 @@ def download_video_as_mp3(url):
         clip.close()
         os.remove(video_path)
         print('[+] Downloaded!')
+        #add database update
+
+        #remove this
         return (url, audio_path, default_filename)
     except:
         print(f'[-] Something went wrong while downloading {default_filename}')
 
 
-def download_from_bookmarks(bookmark_name):
-    url_list = []
-    tuple_list = []
-    for folder in chrome_bookmarks.folders:
-        if folder.name == bookmark_name:
-            urls_in_folder(folder, url_list)
+def download_from_bookmarks(bookmark_name, use_threads=False):
+    urls = bookmarks_handler.get_list_of_urls(bookmark_name)
+    download_with_threads(urls, use_threads)
 
-    for u in url_list:
-        tuple_list.append(download_video_as_mp3(u))
-    return tuple_list
 
 
 def download_with_threads(video_links, use_threads=False):
+    tuple_list = []
     if use_threads:
+        que = queue.Queue()
         threads = []
         for video in video_links:
             try:
@@ -87,14 +87,15 @@ def download_with_threads(video_links, use_threads=False):
     else:
         for video in video_links:
             try:
-                download_video_as_mp3(video)
+                tuple_list.append(download_video_as_mp3(video))
             except:
                 print('[-] Something went wrong in downloading without '
                       'threads function.')
 
 # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
-#                'https://www.youtube.com/watch?v=ec20HTk2C_s',
-#                'https://www.youtube.com/watch?v=lozD2BFLipQ']
+#                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
+#                 'https://www.youtube.com/watch?v=lozD2BFLipQ']
+
 #
 # print('------Regular download')
 # for v in video_links:
