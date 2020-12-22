@@ -2,6 +2,8 @@ import os
 import sqlite3
 from datetime import datetime
 import settings
+from urllib.parse import urlparse, parse_qs
+
 
 class Database:
     database = None
@@ -35,6 +37,16 @@ class Database:
         for idx, col in enumerate(cursor.description):
             d[col[0]] = row[idx]
         return d
+
+    @staticmethod
+    def get_yt_id(url):
+        u_pars = urlparse(url)
+        quer_v = parse_qs(u_pars.query).get('v')
+        if quer_v:
+            return quer_v[0]
+        pth = u_pars.path.split('/')
+        if pth:
+            return pth[-1]
 
     @staticmethod
     def get_database():
