@@ -78,7 +78,7 @@ def download_with_threads(video_links, use_threads=False):
             t.start()
     else:
         for video in video_links:
-            tuple_list.append(download_video_as_mp3(video))
+            tuple_list.append(download_video_if_not_exist(video))
 
 def download_video_if_not_exist(url):
     #check if url exists in database
