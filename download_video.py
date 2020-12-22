@@ -66,5 +66,3 @@ def download_from_bookmarks(bookmark_name):
     for u in url_list:
         tuple_list.append(download_video_as_mp3(u))
     return tuple_list
-
-download_video('https://www.youtube.com/watch?v=BehfKBu_bDw')
