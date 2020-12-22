@@ -48,7 +48,7 @@ class Database:
         yt_id = self.get_yt_id(url)
         connection = sqlite3.connect(os.path.join(settings.database_path, 'pityfy.db'))
         cursor = connection.cursor()
-        return cursor.execute("SELECT EXIST(SELECT 1 FROM songs WHERE yt_id = ?)", (yt_id,)).fetchone()
+        return cursor.execute("SELECT EXISTS(SELECT 1 FROM songs WHERE yt_id = ?)", (yt_id,)).fetchone()
 
     @staticmethod
     def dict_factory(cursor, row):
