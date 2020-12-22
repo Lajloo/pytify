@@ -7,8 +7,8 @@ from download_video import download_from_bookmarks
 
 database = Database.get_database()
 # song_url TEXT, path TEXT, title TEXT
-# for item in download_from_bookmarks("muzaaaaa"):
-#     database.add_record(song_url=item[0], path=item[1], title=item[2])
+for item in download_from_bookmarks("muzaaaaa"):
+    database.add_record(song_url=item[0], path=item[1], title=item[2])
 
 
 @route('/favicon.ico', method='GET')
