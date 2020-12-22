@@ -14,3 +14,4 @@ tqdm==4.54.1
 typing-extensions==3.7.4.3
 urllib3==1.26.2
 bottle==0.12.19
+chrome-bookmarks==2020.10.25
