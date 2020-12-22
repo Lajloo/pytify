@@ -18,6 +18,7 @@ def urls_in_folder(folder, url_list):
     
 def download_video(url):
     youtube = pytube.YouTube(url)
+    print(youtube.streams.filter(progressive=True).all())
 
     name = youtube.streams[0].default_filename
     cwd = os.getcwd()
@@ -25,12 +26,12 @@ def download_video(url):
     file_path_name = cwd + '/' + name
     mp3_file = file_path_name.strip('.mp4') + '.mp3'
 
-    video = youtube.streams.filter(only_audio=True).first()
+    #video = youtube.streams.filter(only_audio=True).first()
+    video = youtube.streams.filter(res='720p').first()
+
     try:
         video.download()
-        
         print('[+] Downloaded!')
-
     except:
         print('[-] Something went wrong...')
     
@@ -66,3 +67,4 @@ def download_from_bookmarks(bookmark_name):
         tuple_list.append(download_video_as_mp3(u))
     return tuple_list
 
+download_video('https://www.youtube.com/watch?v=BehfKBu_bDw')
