@@ -80,7 +80,6 @@ def download_with_threads(video_links):
         try:
             t = threading.Thread(target=download_video_as_mp3, args=(video, ))
             threads.append(t)
-            threads.append(t)
             t.start()
         except:
             print("[-] Something went wrong in threading function")
