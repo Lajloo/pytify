@@ -58,9 +58,10 @@ def download_video_as_mp3(url):
     clip.close()
     os.remove(video_path)
     print('[+] Downloaded!')
+    filename = os.path.splitext(default_filename)[0]
     #add database
     database = Database.get_database()
-    database.add_record_thread_safe(url, audio_path, default_filename)
+    database.add_record_thread_safe(url, audio_path, filename)
 
 
 def download_from_bookmarks(bookmark_name, use_threads=False):
