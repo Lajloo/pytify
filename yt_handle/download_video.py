@@ -7,12 +7,27 @@ import bookmarks_handler
 import queue
 from database.database import Database
 
+
+class DownloadWorker(threading.Thread):
+    def __init__(self, queue):
+        threading.Thread.__init__(self)
+        self.queue = queue
+
+    def run(self):
+        while True:
+            # Get the work from the queue and expand the tuple
+            url = self.queue.get()
+            try:
+                download_video_if_not_exist(url)
+            finally:
+                self.queue.task_done()
+
+
+
 #Install 10.1.0 pytube
 #pip install git+https://github.com/nficano/pytube
-#TODO add this to the requirements when pip releases this version at repo
-
-
-url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
+#TODO add this to the requirements when pip releases this version at repo#
+#url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
 #(song_url TEXT, path TEXT, title TEXT)
 
 def urls_in_folder(folder, url_list):
@@ -63,9 +78,18 @@ def download_video_as_mp3(url):
     database = Database.get_database()
     database.add_record_thread_safe(url, audio_path, filename)
 
-def download_from_bookmarks(bookmark_name, use_threads=False):
+def download_from_bookmarks(bookmark_name, n_of_threads=1):
     urls = bookmarks_handler.get_list_of_urls(bookmark_name)
-    download_with_threads(urls, use_threads)
+    # download_with_threads(urls, use_threads)
+    que = queue.Queue()
+    for x in range(n_of_threads):
+        worker = DownloadWorker(que)
+        worker.daemon = True
+        worker.start()
+    for u in urls:
+        que.put(u)
+    que.join()
+
 
 def download_with_threads(video_links, use_threads=False):
     tuple_list = []
@@ -91,7 +115,7 @@ def download_video_if_not_exist(url):
  # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
  #                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
  #                 'https://www.youtube.com/watch?v=lozD2BFLipQ']
-download_from_bookmarks('muzaaaaa', True)
+download_from_bookmarks('asd', 3)
 #
 # print('------Regular download')
 # for v in video_links:
