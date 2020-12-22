@@ -1,9 +1,7 @@
-from bottle import route, run, template, view, static_file, request, post
+from bottle import route, run, template, view, static_file
 import os
 import settings
-from database import Database
-from download_video import download_from_bookmarks
-
+from database.database import Database
 
 database = Database.get_database()
 # song_url TEXT, path TEXT, title TEXT
