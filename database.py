@@ -60,5 +60,3 @@ class Database:
         else:
             Database.database = Database()
             return Database.database
-
-Database.get_database().get_song("kurwa")
