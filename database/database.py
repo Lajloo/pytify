@@ -44,6 +44,11 @@ class Database:
         cursor.execute("SELECT * FROM songs WHERE yt_id = ?", (yt_id, ))
         return cursor.fetchone()
 
+    def check_if_exist(self, url):
+        yt_id = self.get_yt_id(url)
+        cursor = self.connection.cursor()
+        return cursor.execute("SELECT EXIST(SELECT 1 FROM songs WHERE yt_id = ?)", (yt_id,)).fetchone()
+
     @staticmethod
     def dict_factory(cursor, row):
         d = {}
