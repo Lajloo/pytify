@@ -63,16 +63,9 @@ def download_video_as_mp3(url):
     database = Database.get_database()
     database.add_record_thread_safe(url, audio_path, filename)
 
-
 def download_from_bookmarks(bookmark_name, use_threads=False):
-    try:
-        urls = bookmarks_handler.get_list_of_urls(bookmark_name)
-        download_with_threads(urls, use_threads)
-    except Exception as ex:
-        number = 7
-        number = 9
-
-
+    urls = bookmarks_handler.get_list_of_urls(bookmark_name)
+    download_with_threads(urls, use_threads)
 
 def download_with_threads(video_links, use_threads=False):
     tuple_list = []
@@ -87,7 +80,13 @@ def download_with_threads(video_links, use_threads=False):
         for video in video_links:
             tuple_list.append(download_video_as_mp3(video))
 
-
+def download_video_if_not_exist(url):
+    #check if url exists in database
+    database = Database.get_database()
+    if not database.check_if_exist(url):
+        download_video_as_mp3(url)
+    else:
+        print('[*] Url already exists in database.')
 
  # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
  #                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
