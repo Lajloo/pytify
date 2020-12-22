@@ -46,29 +46,30 @@ def download_video(url):
 def download_video_as_mp3(url):
     os.makedirs(settings.save_audio_path, exist_ok=True)
     youtube = pytube.YouTube(url)
-    try:
-        video = youtube.streams.filter(only_audio=True).first()
-        video.download(output_path=settings.save_audio_path)
+    video = youtube.streams.filter(only_audio=True).first()
+    video.download(output_path=settings.save_audio_path)
 
-        default_filename = video.default_filename
-        video_path = os.path.join(settings.save_audio_path, default_filename)
-        clip = AudioFileClip(video_path)
+    default_filename = video.default_filename
+    video_path = os.path.join(settings.save_audio_path, default_filename)
+    clip = AudioFileClip(video_path)
 
-        audio_path = os.path.splitext(video_path)[0] + '.mp3'
-        clip.write_audiofile(audio_path)
-        clip.close()
-        os.remove(video_path)
-        print('[+] Downloaded!')
-        #add database
-        database = Database.get_database()
-        database.add_record(url, audio_path, default_filename)
-    except:
-        print(f'[-] Something went wrong while downloading {default_filename}')
+    audio_path = os.path.splitext(video_path)[0] + '.mp3'
+    clip.write_audiofile(audio_path)
+    clip.close()
+    os.remove(video_path)
+    print('[+] Downloaded!')
+    #add database
+    database = Database.get_database()
+    database.add_record_thread_safe(url, audio_path, default_filename)
 
 
 def download_from_bookmarks(bookmark_name, use_threads=False):
-    urls = bookmarks_handler.get_list_of_urls(bookmark_name)
-    download_with_threads(urls, use_threads)
+    try:
+        urls = bookmarks_handler.get_list_of_urls(bookmark_name)
+        download_with_threads(urls, use_threads)
+    except Exception as ex:
+        number = 7
+        number = 9
 
 
 
@@ -78,25 +79,19 @@ def download_with_threads(video_links, use_threads=False):
         que = queue.Queue()
         threads = []
         for video in video_links:
-            try:
-                t = threading.Thread(target=download_video_as_mp3, args=(video, ))
-                threads.append(t)
-                t.start()
-            except:
-                print("[-] Something went wrong in threading function.")
+            t = threading.Thread(target=download_video_as_mp3, args=(video, ))
+            threads.append(t)
+            t.start()
     else:
         for video in video_links:
-            try:
-                tuple_list.append(download_video_as_mp3(video))
-            except:
-                print('[-] Something went wrong in downloading without '
-                      'threads function.')
+            tuple_list.append(download_video_as_mp3(video))
+
 
 
  # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
  #                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
  #                 'https://www.youtube.com/watch?v=lozD2BFLipQ']
-download_from_bookmarks('muzaaaaa', False)
+download_from_bookmarks('muzaaaaa', True)
 #
 # print('------Regular download')
 # for v in video_links:

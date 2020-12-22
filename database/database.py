@@ -25,6 +25,14 @@ class Database:
         cursor.execute("INSERT INTO songs VALUES (?,?,?,?,?)", (song_url, yt_id, path, title, date))
         self.connection.commit()
 
+    def add_record_thread_safe(self, song_url, path, title):
+        connection = sqlite3.connect(os.path.join(settings.database_path, 'pityfy.db'))
+        cursor = connection.cursor()
+        date = datetime.now()
+        yt_id = self.get_yt_id(song_url)
+        cursor.execute("INSERT INTO songs VALUES (?,?,?,?,?)", (song_url, yt_id, path, title, date))
+        connection.commit()
+
     def list_all(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT * FROM songs")
