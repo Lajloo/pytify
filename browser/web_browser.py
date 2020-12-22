@@ -5,8 +5,8 @@ from database.database import Database
 
 database = Database.get_database()
 # song_url TEXT, path TEXT, title TEXT
-for item in download_from_bookmarks("muzaaaaa"):
-    database.add_record(song_url=item[0], path=item[1], title=item[2])
+# for item in download_from_bookmarks("muzaaaaa"):
+#     database.add_record(song_url=item[0], path=item[1], title=item[2])
 
 
 @route('/favicon.ico', method='GET')
@@ -25,7 +25,8 @@ def index():
     Returns main page of the server.
     :return:
     """
-    return template('browser/index.html',
+    return template('index.html',
+                    root="browser",
                     title="What a PiTify!",
                     songs=database.list_all())
 
