@@ -31,6 +31,11 @@ class Database:
         results = cursor.fetchall()
         return results
 
+    def get_song(self, yt_id):
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM songs WHERE yt_id = ?", (yt_id, ))
+        return cursor.fetchone()
+
     @staticmethod
     def dict_factory(cursor, row):
         d = {}
@@ -55,3 +60,5 @@ class Database:
         else:
             Database.database = Database()
             return Database.database
+
+Database.get_database().get_song("kurwa")
