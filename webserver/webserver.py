@@ -1,43 +1,56 @@
-from bottle import route, run, template, view, static_file
-import os
 import settings
 from database.database import Database
-
-database = Database.get_database()
-# song_url TEXT, path TEXT, title TEXT
-# for item in download_from_bookmarks("muzaaaaa"):
-#     database.add_record(song_url=item[0], path=item[1], title=item[2])
+from yt_handle.download_video import download_video_if_not_exist
+from bottle import *
 
 
 @route('/favicon.ico', method='GET')
 def get_favicon():
     """
     Browsers for no reason keep asking for favicon, so there you go.
-    :return: favicon
+    :return: favicon.ico
     """
-    return static_file('favicon.ico', root='/browser/static_files')
+    return static_file('favicon.ico',
+                       root='staticfiles')
 
 
 @route('/')
-@view('browser/index')
+@view('index')
 def index():
     """
     Returns main page of the server.
     :return:
     """
+    database = Database.get_database()
     return template('index.html',
-                    root="browser",
                     title="What a PiTify!",
                     songs=database.list_all())
 
 
 @route('/download/<yt_id>')
 def download_song(yt_id):
+    database = Database.get_database()
     song = database.get_song(yt_id)
     return static_file(os.path.basename(song['path']),
                        root=settings.save_audio_path,
                        mimetype="audio/mpeg")
 
+
+@route('/style.css')
+def send_style():
+    """
+    Sends style.css.
+    :return: style.css
+    """
+    return static_file('style.css', root='staticfiles')
+
+
+@post('/add')
+@view('index')
+def add_song():
+    song_url = request.forms.song_url
+    download_video_if_not_exist(song_url)
+    return index()
 
 
 if __name__ == "__main__":

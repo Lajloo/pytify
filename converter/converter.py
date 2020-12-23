@@ -1,6 +1,5 @@
 from moviepy.editor import *
 import os
-import re
 
 #Converts all mp4 files into mp3 files in the current direcotry
 def convert_mp4_to_mp3():

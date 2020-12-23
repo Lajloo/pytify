@@ -20,7 +20,7 @@ class Database:
 
     def add_record(self, song_url, path, title):
         cursor = self.connection.cursor()
-        date = datetime.now()
+        date = Database.get_current_date()
         yt_id = self.get_yt_id(song_url)
         cursor.execute("INSERT INTO songs VALUES (?,?,?,?,?)", (song_url, yt_id, path, title, date))
         self.connection.commit()
@@ -28,7 +28,7 @@ class Database:
     def add_record_thread_safe(self, song_url, path, title):
         connection = sqlite3.connect(os.path.join(settings.database_path, 'pityfy.db'))
         cursor = connection.cursor()
-        date = datetime.now()
+        date = Database.get_current_date()
         yt_id = self.get_yt_id(song_url)
         cursor.execute("INSERT INTO songs VALUES (?,?,?,?,?)", (song_url, yt_id, path, title, date))
         connection.commit()
@@ -74,3 +74,7 @@ class Database:
         else:
             Database.database = Database()
             return Database.database
+
+    @staticmethod
+    def get_current_date():
+        return datetime.now().strftime("%Y/%m/%d, %H:%M:%S")

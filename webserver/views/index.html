@@ -1,0 +1,45 @@
+<!DOCTYurlPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <script src="https://use.fontawesome.com/46c738808b.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+</head>
+<body>
+<div class="wholebox">
+    <div class="navbar">
+        <form action="/add" method="post" class="searchbar">
+            <input id="song_url" type="text" name="song_url"
+                   placeholder="Paste URL to spit on YouTube...">
+            <input class="button" type="submit" value="Ptui!">
+        </form>
+    </div>
+</div>
+<div class="wholebox">
+    <table style="width: 60%; margin: auto">
+        %for song in songs:
+        <tr>
+            <td>
+                <table style="width: 100%">
+                    <tr>
+                        <td>{{song['title']}}</td>
+                        <td style="text-align: right">
+                        <a href="/download/{{song['yt_id']}}">
+<!--                            {{song['yt_id']}}-->
+                        <i class="fas fa-file-download"></i>
+                        </a></td>
+                    </tr>
+                    <tr>
+                        <td>{{song['date']}}</td>
+                        <td style="text-align: right">{{song['song_url']}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        %end
+    </table>
+</div>
+</body>
+</html>

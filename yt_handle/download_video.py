@@ -1,11 +1,10 @@
 import pytube
-from moviepy.editor import *
-import os
+import queue
 import settings
 import threading
-import bookmarks_handler
-import queue
+from browsers.chrome import bookmarks_handler
 from database.database import Database
+from moviepy.editor import *
 
 
 class DownloadWorker(threading.Thread):
@@ -23,10 +22,6 @@ class DownloadWorker(threading.Thread):
                 self.queue.task_done()
 
 
-
-#Install 10.1.0 pytube
-#pip install git+https://github.com/nficano/pytube
-#TODO add this to the requirements when pip releases this version at repo#
 #url = 'https://www.youtube.com/watch?v=Cpdw4mVSJdc'
 #(song_url TEXT, path TEXT, title TEXT)
 
@@ -78,6 +73,7 @@ def download_video_as_mp3(url):
     database = Database.get_database()
     database.add_record_thread_safe(url, audio_path, filename)
 
+
 def download_from_bookmarks(bookmark_name, n_of_threads=1):
     urls = bookmarks_handler.get_list_of_urls(bookmark_name)
     # download_with_threads(urls, use_threads)
@@ -112,15 +108,7 @@ def download_video_if_not_exist(url):
     else:
         print('[*] Url already exists in database.')
 
- # video_links = ['https://www.youtube.com/watch?v=bzRBpWLY_o4',
- #                 'https://www.youtube.com/watch?v=ec20HTk2C_s',
- #                 'https://www.youtube.com/watch?v=lozD2BFLipQ']
-download_from_bookmarks('asd', 3)
-#
-# print('------Regular download')
-# for v in video_links:
-#     download_video_as_mp3(v)
-# print('------Regular download finished')
-# print('------Threaded download ')
-# download_with_threads(video_links)
-# print('-------Threaded download finished')
+
+# use __name__ == '__main__' to prevent unintended running
+if __name__ == '__main__':
+    download_from_bookmarks('muzaaaaa', 3)

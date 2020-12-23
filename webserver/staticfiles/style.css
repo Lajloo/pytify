@@ -1,0 +1,95 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "Lato", sans-serif;
+}
+
+.navbar {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 10px;
+    color: #d3cfe8;
+    background: #1d1d52;
+    text-align: center;
+}
+
+.navbar form{
+    margin: 0;
+}
+
+form.searchbar input[type=text] {
+  padding: 10px;
+  font-size: 16px;
+  border: 0;
+  height: 40px;
+  width: 56%;
+  background: #f1f1f1;
+  margin-right: 0;
+}
+
+form.searchbar .button {
+  width: 60px;
+  height: 40px;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 16px;
+  border: 0;
+  margin-left: -4px;
+  cursor: pointer;
+}
+
+form.searchbar .button:hover {
+  background: yellow;
+}
+
+.leftbox-50{
+    padding-right: 5px;
+    float:left;
+    width:50%;
+    box-sizing: border-box;
+}
+.rightbox-50{
+    padding-left: 5px;
+
+    float:right;
+    width:50%; /*warning*/
+    box-sizing: border-box;
+}
+
+.leftbox-60{
+    padding-right: 5px;
+    float:left;
+    width:60%;
+    box-sizing: border-box;
+}
+.rightbox-40{
+    padding-left: 5px;
+
+    float:right;
+    width:40%; /*warning*/
+    box-sizing: border-box;
+}
+
+.leftbox-40{
+    padding-right: 5px;
+    float:left;
+    width:40%;
+    box-sizing: border-box;
+}
+.rightbox-60{
+    padding-left: 5px;
+
+    float:right;
+    width:60%; /*warning*/
+    box-sizing: border-box;
+}
+
+.wholebox{
+    float: bottom;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    clear:both;
+}
