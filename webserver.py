@@ -22,7 +22,6 @@ def index(bookmark_success=None):
     Returns main page of the server.
     :return:
     """
-
     database = Database.get_database()
     return template('index.html',
                     title="What a PiTify!",
@@ -41,7 +40,6 @@ def download_song(yt_id):
     # / download / {{song['yt_id']}}
     # database = Database.get_database()
     # song = database.get_song(yt_id)
-
 
 
 @route('/style.css')
