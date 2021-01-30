@@ -169,5 +169,8 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 
-# system-specific settings:
-settings.py
+## system-specific settings: (DEPRECATED ENTRY)
+#settings.py
+
+# default folder for audio and database
+.data/
