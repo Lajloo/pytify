@@ -9,6 +9,7 @@ from bottle import *
 def get_favicon():
     """
     Browsers for no reason keep asking for favicon, so there you go.
+
     :return: favicon.ico
     """
     return static_file('favicon.ico',
@@ -20,7 +21,9 @@ def get_favicon():
 def index(bookmark_success=None):
     """
     Returns main page of the server.
-    :param bookmark_success: Tells if bookmark folder was correctly pointed by user.
+
+    :param bookmark_success: Tells if bookmark folder was correctly pointed by
+    user.
     :return: Template index.html
     """
     database = Database.get_database()
@@ -34,6 +37,7 @@ def index(bookmark_success=None):
 def download_song(yt_id):
     """
     Allows user to download song to his local machine.
+
     :param yt_id: Id of the song
     :return: Download stream.
     """
@@ -52,6 +56,7 @@ def download_song(yt_id):
 def send_style():
     """
     Sends style.css.
+
     :return: style.css
     """
     return static_file('style.css', root='staticfiles')
@@ -62,6 +67,7 @@ def send_style():
 def add_song():
     """
     Downloads single youtube video to the server
+
     :return: index
     """
     song_url = request.forms.song_url
@@ -74,6 +80,7 @@ def add_song():
 def bookmark_download():
     """
     Downloads all videos from the bookmark.
+
     :return: index with status
     """
     status = download_from_bookmarks(request.forms.bookmark_path)
