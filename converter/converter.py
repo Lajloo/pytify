@@ -3,6 +3,9 @@ import os
 
 #Converts all mp4 files into mp3 files in the current direcotry
 def convert_mp4_to_mp3():
+    """
+    Converts mp4 video to mp3
+    """
     #find all .mp4 files in current directory
     files = os.listdir()
     mp4_files = [x for x in files if '.mp4' in x]

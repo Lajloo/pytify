@@ -20,7 +20,8 @@ def get_favicon():
 def index(bookmark_success=None):
     """
     Returns main page of the server.
-    :return:
+    :param bookmark_success: Tells if bookmark folder was correctly pointed by user.
+    :return: Template index.html
     """
     database = Database.get_database()
     return template('index.html',
@@ -31,6 +32,11 @@ def index(bookmark_success=None):
 
 @route('/download/<yt_id>')
 def download_song(yt_id):
+    """
+    Allows user to download song to his local machine.
+    :param yt_id: Id of the song
+    :return: Download stream.
+    """
     database = Database.get_database()
     song = database.get_song(yt_id)
     return static_file(os.path.basename(song['path']),
@@ -54,6 +60,10 @@ def send_style():
 @post('/add')
 @view('index')
 def add_song():
+    """
+    Downloads single youtube video to the server
+    :return: index
+    """
     song_url = request.forms.song_url
     download_video_if_not_exist(song_url)
     return index()
@@ -62,6 +72,10 @@ def add_song():
 @post('/bookmark_download')
 @view('index')
 def bookmark_download():
+    """
+    Downloads all videos from the bookmark.
+    :return: index with status
+    """
     status = download_from_bookmarks(request.forms.bookmark_path)
     return index(status)
 
