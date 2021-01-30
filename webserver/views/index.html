@@ -38,29 +38,27 @@
 
     </div>
 </div>
-<div class="wholebox">
-    <table style="width: 60%; margin: auto">
-        %for song in songs:
-        <tr>
-            <td>
-                <table style="width: 100%">
-                    <tr>
-                        <td>{{song['title']}}</td>
-                        <td style="text-align: right">
-                        <a href="/download/{{song['yt_id']}}">
-                            Download
-                        <i class="fas fa-file-download"></i>
-                        </a></td>
-                    </tr>
-                    <tr>
-                        <td>{{song['date']}}</td>
-                        <td style="text-align: right">{{song['song_url']}}</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        %end
-    </table>
+<div class="tiles">
+<div class="row">
+    %for song in songs:
+  <div class="column">
+        <div class="card">
+          <h3>{{song['title']}}</h3>
+          <a href="/download/{{song['yt_id']}}">
+               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-download" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+               <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+               <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+               <line x1="12" y1="11" x2="12" y2="17"></line>
+               <polyline points="9 14 12 17 15 14"></polyline>
+               </svg>
+          </a>
+        </div>
+  </div>
+    %end
 </div>
+</div>
+
+
 </body>
 </html>
