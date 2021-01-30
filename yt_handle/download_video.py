@@ -77,14 +77,19 @@ def download_video_as_mp3(url):
 def download_from_bookmarks(bookmark_name, n_of_threads=1):
     urls = bookmarks_handler.get_list_of_urls(bookmark_name)
     # download_with_threads(urls, use_threads)
-    que = queue.Queue()
-    for x in range(n_of_threads):
-        worker = DownloadWorker(que)
-        worker.daemon = True
-        worker.start()
-    for u in urls:
-        que.put(u)
-    que.join()
+    print(urls)
+    if urls:
+        que = queue.Queue()
+        for x in range(n_of_threads):
+            worker = DownloadWorker(que)
+            worker.daemon = True
+            worker.start()
+        for u in urls:
+            que.put(u)
+        que.join()
+        return True
+    else:
+        return False
 
 
 def download_with_threads(video_links, use_threads=False):

@@ -16,6 +16,27 @@
             <input class="button" type="submit" value="Ptui!">
         </form>
     </div>
+
+    <div class="navbar">
+        <form action="/bookmark_download" method="post" class="searchbar">
+            <input id="bookmark_path" type="text" name="bookmark_path"
+                   placeholder="Type chrome bookmark name where you keep your music...">
+            <input class="button" type="submit" value="Ptui!">
+        </form>
+    </div>
+
+    <div class="bookmark-success">
+
+        % if bookmark_success == True:
+        <a>Success</a>
+        % elif bookmark_success == False:
+        <a>Failed. There is no such bookmark in your browser.</a>
+        % elif bookmark_success == None:
+
+        % end
+
+
+    </div>
 </div>
 <div class="wholebox">
     <table style="width: 60%; margin: auto">

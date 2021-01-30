@@ -1,6 +1,7 @@
 import settings
 from database.database import Database
 from yt_handle.download_video import download_video_if_not_exist
+from yt_handle.download_video import download_from_bookmarks
 from bottle import *
 
 
@@ -16,15 +17,18 @@ def get_favicon():
 
 @route('/')
 @view('index')
-def index():
+def index(bookmark_success=None):
     """
     Returns main page of the server.
     :return:
     """
+
+
     database = Database.get_database()
     return template('index.html',
                     title="What a PiTify!",
-                    songs=database.list_all())
+                    songs=database.list_all(),
+                    bookmark_success=bookmark_success)
 
 
 @route('/download/<yt_id>')
@@ -51,6 +55,13 @@ def add_song():
     song_url = request.forms.song_url
     download_video_if_not_exist(song_url)
     return index()
+
+@post('/bookmark_download')
+@view('index')
+def bookmark_download():
+    status = download_from_bookmarks(request.forms.bookmark_path)
+    return index(status)
+
 
 
 if __name__ == "__main__":
