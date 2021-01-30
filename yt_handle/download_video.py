@@ -26,6 +26,11 @@ class DownloadWorker(threading.Thread):
 #(song_url TEXT, path TEXT, title TEXT)
 
 def urls_in_folder(folder, url_list):
+    """
+    Generates the list of urls in folder.
+    :param folder: Single folder of chrome_bookmarks.folders.
+    :param url_list: List of urls.
+    """
     for url in folder.urls:
         #print(url['url'], end=' ')
         #print(url['name'])
@@ -35,6 +40,10 @@ def urls_in_folder(folder, url_list):
         urls_in_folder(child, url_list)
     
 def download_video(url):
+    """
+    Downloads a video from youtube.
+    :param url: Url of the youtube video.
+    """
     youtube = pytube.YouTube(url)
     print(youtube.streams.filter(progressive=True).all())
 
@@ -54,6 +63,10 @@ def download_video(url):
         print('[-] Something went wrong...')
     
 def download_video_as_mp3(url):
+    """
+    Downloads a video and converts it to the .mp3 format.
+    :params url: Url of the youtube video.
+    """
     os.makedirs(settings.save_audio_path, exist_ok=True)
     youtube = pytube.YouTube(url)
     video = youtube.streams.filter(only_audio=True).first()
@@ -75,6 +88,12 @@ def download_video_as_mp3(url):
 
 
 def download_from_bookmarks(bookmark_name, n_of_threads=1):
+    """
+    Downloads all links from the bookmark folder.
+    :param bookmark_name: Name of the bookmark folder.
+    :param n_of_threads: Number of threads that will be used in download process.
+    :return: True if there were urls in bookmark folder. False if the bookmark folder was empty.
+    """
     urls = bookmarks_handler.get_list_of_urls(bookmark_name)
     # download_with_threads(urls, use_threads)
     print(urls)
@@ -93,6 +112,11 @@ def download_from_bookmarks(bookmark_name, n_of_threads=1):
 
 
 def download_with_threads(video_links, use_threads=False):
+    """
+    Uses threads to download videos
+    :params video_links: List of videos.
+    :params use_threads: If run with threads.
+    """
     tuple_list = []
     if use_threads:
         que = queue.Queue()
@@ -106,6 +130,10 @@ def download_with_threads(video_links, use_threads=False):
             tuple_list.append(download_video_if_not_exist(video))
 
 def download_video_if_not_exist(url):
+    """
+    Checks if following url already exists in the database. If so, it is not being downloaded.
+    :param url: Url that is being checked.
+    """
     #check if url exists in database
     database = Database.get_database()
     if not database.check_if_exist(url):
