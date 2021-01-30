@@ -23,7 +23,6 @@ def index(bookmark_success=None):
     :return:
     """
 
-
     database = Database.get_database()
     return template('index.html',
                     title="What a PiTify!",
@@ -56,6 +55,7 @@ def add_song():
     download_video_if_not_exist(song_url)
     return index()
 
+
 @post('/bookmark_download')
 @view('index')
 def bookmark_download():
@@ -63,11 +63,5 @@ def bookmark_download():
     return index(status)
 
 
-
-def run_webserver(host='localhost', port=8080):
-    os.chdir('./webserver')
-    run(host=host, port=port)
-
-
 if __name__ == "__main__":
-    run(host='localhost', port=8080)
+    run(host=settings.host, port=settings.port)
