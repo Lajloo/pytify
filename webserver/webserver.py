@@ -53,5 +53,10 @@ def add_song():
     return index()
 
 
+def run_webserver(host='localhost', port=8080):
+    os.chdir('./webserver')
+    run(host=host, port=port)
+
+
 if __name__ == "__main__":
     run(host='localhost', port=8080)
