@@ -171,3 +171,6 @@ GitHub.sublime-settings
 
 ## system-specific settings: (DEPRECATED ENTRY)
 #settings.py
+
+# default folder for audio and database
+.data/
